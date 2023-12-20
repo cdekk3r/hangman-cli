@@ -1,6 +1,5 @@
 package org.example;
 
-import org.example.models.RandomWord;
 import org.example.services.RandomWordService;
 
 import java.util.Scanner;
@@ -19,8 +18,6 @@ public class App {
 
         if(mainMenuSelection == 1) {
             String word = generateWord();
-            System.out.println(word);
-
             String spaces = createSpaces();
             System.out.println(spaces);
 
@@ -91,9 +88,7 @@ public class App {
         System.out.print(prompt);
         String letterSelection ="";
         try {
-
             letterSelection = keyboard.nextLine();
-
         }
         catch (Exception e) {
             System.out.println("Please choose a letter.");
