@@ -1,5 +1,8 @@
 package org.example;
 
+import org.example.models.RandomWord;
+import org.example.services.RandomWordService;
+
 import java.util.Scanner;
 
 public class App {
@@ -11,14 +14,16 @@ public class App {
     }
 
     private void run() {
-
         printMainMenu();
         int mainMenuSelection = promptForMenuSelection("Please choose an option: ");
 
         if(mainMenuSelection == 1) {
+            String word = generateWord();
+            System.out.println(word);
+
             String spaces = createSpaces();
-            String word = generateWord().toLowerCase();
             System.out.println(spaces);
+
             int count = word.length();
             String wrongGuesses = "";
 
@@ -97,7 +102,10 @@ public class App {
     }
 
     private String generateWord() {
-        return "happy";
+        RandomWordService service = new RandomWordService();
+        String word = service.getWord();
+        word = word.substring(2, word.length()-2);
+        return word;
     }
 
     private String createSpaces() {
