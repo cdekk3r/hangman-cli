@@ -25,29 +25,14 @@ public class App {
             String wrongGuesses = "";
 
             while(true) {
-
-                if(spaces.equals(word)) {
-                    System.out.println("You've won!");
-                    System.exit(0);
-                }
-
+                checkForWin(word, spaces);
                 String letterSelection = promptForLetterSelection("Guess a letter: ");
+                selectionInvalidOrDuplicate(letterSelection, spaces, wrongGuesses);
 
-                if(letterSelection.length() > 1 || letterSelection == "" || Character.isWhitespace(letterSelection.charAt(0)) || Character.isDigit(letterSelection.charAt(0))){
-                    System.out.println("Please choose a letter.");
-                    continue;
-                } else if (spaces.contains(letterSelection) || wrongGuesses.contains(letterSelection)) {
-                    System.out.println("You already guessed this letter. Guess again.");
-                } else if(!word.contains(letterSelection)) {
+                if(!word.contains(letterSelection)) {
+                    wrongGuess(count, wrongGuesses, letterSelection, word);
                     count--;
-                    wrongGuesses += letterSelection;
-                    System.out.println("Wrong! " + count + " guesses left!");
-                    if(count == 0) {
-                        System.out.println("Game Over! The word was " + word);
-                        break;
-                    }
                 } else {
-
                     System.out.println("Correct! Guess again.");
                     String updatedSpaces = "";
 
@@ -86,14 +71,7 @@ public class App {
 
     private String promptForLetterSelection(String prompt) {
         System.out.print(prompt);
-        String letterSelection ="";
-        try {
-            letterSelection = keyboard.nextLine();
-        }
-        catch (Exception e) {
-            System.out.println("Please choose a letter.");
-        }
-        return letterSelection.toLowerCase();
+        return keyboard.nextLine().toLowerCase();
     }
 
     private String generateWord() {
@@ -114,4 +92,27 @@ public class App {
         return spaces;
     }
 
+    private void checkForWin(String word, String spaces) {
+        if(spaces.equals(word)) {
+            System.out.println("You've won!");
+            System.exit(0);
+        }
+    };
+
+    private void selectionInvalidOrDuplicate(String letterSelection, String spaces, String wrongGuesses) {
+        if(letterSelection.length() > 1 || letterSelection == "" || Character.isWhitespace(letterSelection.charAt(0)) || Character.isDigit(letterSelection.charAt(0))){
+            System.out.println("Please choose a letter.");
+        } else if (spaces.contains(letterSelection) || wrongGuesses.contains(letterSelection)) {
+            System.out.println("You already guessed this letter. Guess again.");
+        }
+    }
+
+    private void wrongGuess(int count, String wrongGuesses, String letterSelection, String word){
+        wrongGuesses += letterSelection;
+        System.out.println("Wrong! " + count + " guesses left!");
+        if(count == 0) {
+            System.out.println("Game Over! The word was " + word);
+            System.exit(0);
+        }
+    }
 }
